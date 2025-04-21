@@ -7,7 +7,7 @@ class HiveHelper {
   static const String newestBox = 'Newest Box';
   static const String similarBox = 'Similar Box';
   static const Duration _cacheDuration = Duration(days: 1);
-   Future<void> init() async {
+  static Future<void> init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(CachedBooksResponseEntityAdapter());
     Hive.registerAdapter(BookModelAdapter());
@@ -43,7 +43,7 @@ class HiveHelper {
     return box.get(getCacheKey(category: category, pageNumber: pageNumber));
   }
 
-  Future<void> clearExpiredCache() async {
+  static Future<void> clearExpiredCache() async {
     final boxes = [featuredBox, newestBox, similarBox];
     final now = DateTime.now();
 

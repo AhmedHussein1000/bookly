@@ -1,4 +1,4 @@
-import 'package:bookly/core/widgets/custom_text_form_field.dart';
+import 'package:bookly/core/widgets/custom_text_field.dart';
 import 'package:bookly/features/books/presentation/controllers/search_book_bloc/search_book_bloc.dart';
 import 'package:bookly/features/books/presentation/screens/widgets/search_books_widgets/searched_books.dart';
 import 'package:flutter/material.dart';
@@ -37,22 +37,18 @@ class _SearchBooksBodyState extends State<SearchBooksBody> {
           ),
           CustomTextfield(
             hintText: 'Search here',
-            onSubmitted: (value) => context.read<SearchBookBloc>().add(
+            onChanged: (value) => context.read<SearchBookBloc>().add(
                   GetSearchedBooksEvent(categoryQuery: value),
                 ),
             controller: searchController,
-            suffixIcon: IconButton(
-                onPressed: () => context.read<SearchBookBloc>().add(
-                      GetSearchedBooksEvent(
-                          categoryQuery: searchController.text),
-                    ),
-                icon: const Icon(Icons.search)),
           ),
           const SizedBox(
             height: 30,
           ),
-          SearchedBooks(
-            categoryQuery: searchController.text,
+          Expanded(
+            child: SearchedBooks(
+              categoryQuery: searchController.text,
+            ),
           )
         ],
       ),

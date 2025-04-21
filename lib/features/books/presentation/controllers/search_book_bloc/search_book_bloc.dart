@@ -5,6 +5,7 @@ import 'package:bookly/core/utils/enums.dart';
 import 'package:bookly/features/books/domain/entities/book_entity.dart';
 import 'package:bookly/features/books/domain/usecases/search_books_usecase.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'search_book_event.dart';
 part 'search_book_state.dart';
@@ -12,8 +13,14 @@ part 'search_book_state.dart';
 class SearchBookBloc extends Bloc<SearchBookEvent, SearchBookState> {
   final SearchBooksUsecase _searchBooksUsecase;
   SearchBookBloc(this._searchBooksUsecase) : super(const SearchBookState()) {
-    on<GetSearchedBooksEvent>(_getSearchedBooks);
+    on<GetSearchedBooksEvent>(
+      _getSearchedBooks,
+      transformer: (events, mapper) => events
+          .debounceTime(const Duration(milliseconds: 500))
+          .switchMap(mapper),
+    );
   }
+
   Future<void> _getSearchedBooks(
       GetSearchedBooksEvent event, Emitter<SearchBookState> emit) async {
     if (event.categoryQuery.isNullOrEmpty()) {

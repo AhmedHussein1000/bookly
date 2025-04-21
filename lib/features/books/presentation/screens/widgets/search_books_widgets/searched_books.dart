@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bookly/core/utils/enums.dart';
 import 'package:bookly/core/widgets/custom_text_message.dart';
 import 'package:bookly/features/books/domain/entities/book_entity.dart';
@@ -9,19 +7,13 @@ import 'package:bookly/features/books/presentation/screens/widgets/vertical_book
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchedBooks extends StatefulWidget {
+class SearchedBooks extends StatelessWidget {
   const SearchedBooks({super.key, required this.categoryQuery});
   final String categoryQuery;
   @override
-  State<SearchedBooks> createState() => _SearchedBooksState();
-}
-
-class _SearchedBooksState extends State<SearchedBooks> {
-  @override
   Widget build(BuildContext context) {
-    return Expanded(child: BlocBuilder<SearchBookBloc, SearchBookState>(
+    return BlocBuilder<SearchBookBloc, SearchBookState>(
       builder: (context, state) {
-        log('search books rebuild');
         switch (state.searchedBooksStates) {
           case DefaultRequestState.success:
             return SearchedBooksList(
@@ -37,7 +29,7 @@ class _SearchedBooksState extends State<SearchedBooks> {
             return const SizedBox.shrink();
         }
       },
-    ));
+    );
   }
 }
 
